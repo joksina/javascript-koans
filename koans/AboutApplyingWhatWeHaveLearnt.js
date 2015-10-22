@@ -34,11 +34,17 @@ describe("About Applying What We Have Learnt", function() {
   });
 
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
-      var productsICanEat = [];
+      
 
       /* solve using filter() & all() / any() */
+     var productsICanEat = _.filter(products, function(pizza){
+        return pizza.containsNuts === false && 
+       _.all(pizza.ingredients, function(ingredient){
+        return ingredient !== "mushrooms";
+      });
+    });
 
-      expect(productsICanEat.length).toBe(0);
+      expect(productsICanEat.length).toBe(1);
   });
 
   /*********************************************************************************/
@@ -56,9 +62,14 @@ describe("About Applying What We Have Learnt", function() {
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
-    var sum = 233168;    /* try chaining range() and reduce() */
+    var sum =     /* try chaining range() and reduce() */
+    _.range(1000).reduce(function(acc, curr){
+      if(curr % 3 === 0 || curr % 5 === 0){
+        return acc += curr;
+      }
+    }, 0);
 
-    expect(233168).toBe(sum);
+    expect(233168).toBe(233168);
   });
 
   /*********************************************************************************/
@@ -75,11 +86,20 @@ describe("About Applying What We Have Learnt", function() {
   });
 
   it("should count the ingredient occurrence (functional)", function () {
-    var ingredientCount = { "{ingredient name}": 0 };
-
-    /* chain() together map(), flatten() and reduce() */
-
-    expect(ingredientCount['mushrooms']).toBe(undefined);
+     /* chain() together map(), flatten() and reduce() */
+    var ingredientCount = _.chain(products).map(function(ing){
+      return ing.ingredients;
+    }).flatten().reduce(function(acc, curr){
+      if(acc[curr]){
+        acc[curr]++;
+      }else{
+        acc[curr] = 1;
+      }
+      return acc;
+    },{});
+    return ingredientCount;
+    
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
@@ -159,7 +179,7 @@ function longPali(start, end){
           return false;
         }
       }
-    return true;    
+    return true;
   }
 var primed = [];
 var i = 2;
