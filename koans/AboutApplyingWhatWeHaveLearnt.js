@@ -67,9 +67,10 @@ describe("About Applying What We Have Learnt", function() {
       if(curr % 3 === 0 || curr % 5 === 0){
         return acc += curr;
       }
+      return acc;
     }, 0);
 
-    expect(233168).toBe(233168);
+    expect(sum).toBe(233168);
   });
 
   /*********************************************************************************/
